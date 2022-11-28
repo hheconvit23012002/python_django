@@ -1,0 +1,30 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Home{% endblock  %}
+{% block list_nav %}
+<ul class="list_nav">
+    <li class="item_nav">
+        <button class="btn-nav">
+            <a href="/" class="link-nav">Home</a>
+        </button>
+    </li>
+    <li class="item_nav">
+        <button class="btn-nav">
+            <a href="/login" class="link-nav">Login</a>
+        </button>
+    </li>
+    <li class="item_nav">
+        <button class="btn-nav">
+            <a href="/signup" class="link-nav">Signup</a>
+        </button>
+    </li>
+</ul>
+
+{% endblock  %}
+
+{% block content %}
+{% if name %}
+    <h1>Xin chao {{name}}</h1>
+{% endif %}
+<h1>Home page</h1>
+{% endblock  %}

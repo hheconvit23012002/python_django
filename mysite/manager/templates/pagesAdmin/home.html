@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %}
+{% block title %}Home admin{% endblock  %}
+
+{% block list_nav %}
+<ul class="list_nav">
+    <li class="item_nav">
+        <button class="btn-nav">
+            <a href="http://{{ request.get_host }}/manager" class="link-nav">Home</a>
+        </button>
+    </li>
+    <li class="item_nav">
+        <button class="btn-nav">
+            <a href="http://{{ request.get_host }}/manager/login" class="link-nav">Login</a>
+        </button>
+    </li>
+</ul>
+
+{% endblock  %}
+{% block content %}
+
+<h1>đây la trang admin</h1>
+
+{% endblock  %}

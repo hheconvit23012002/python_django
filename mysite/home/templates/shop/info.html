@@ -1,0 +1,101 @@
+
+{% extends 'shop/base.html' %}
+
+{% block title %}Chi tiết sản phẩm{% endblock  %}
+
+{% block style %}
+<style>
+
+    .block-content{
+        margin: 100px;
+        border: 1px solid black;
+        height: 50vh;
+    }
+    .top-content{
+        height: 100%;
+        display:flex;
+        border-bottom: 1px solid black;
+        justify-content: space-between;
+    }
+
+    .detail-img{
+        width: 40%;
+        border-right: 1px solid black;
+    }
+    .cover-detail{
+        width: 60%;
+        padding: 40px;
+        display:flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+    .cover-img{
+        margin: 20px;
+        border-radius: 4px;
+        align-items: center;
+    }
+    .img{
+        max-width: 100%;
+        height: auto;
+    }
+
+    .item-action{
+        display:flex;
+        margin: 20px 0;
+    }
+    .item-action-link{
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        height: 100%;
+        color: black;
+        line-height: 50px;
+    }
+    .btn-action{
+        display:block;
+        width:50%;
+        height:50px;
+    }
+    .info-customer{
+        margin: 20px 0;
+    }
+</style>
+
+{% endblock style %}
+
+
+
+{% block content %}
+
+<div class="block-content">
+    <div class="top-content">
+        <div class="detail-img">
+            <div class="cover-img">
+                <img class="img" src="data:image/jpeg;base64,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" alt="">
+            </div>
+        </div>
+        <div class="cover-detail">
+            <div class="desc-item">
+                <h1 class="name-item">Tên : {{data.name}}</h1>
+                <h3 class="info-customer" >Email : {{data.email}}</h3>
+                <h3 class="info-customer" >Nật khẩu : {{data.password}}</h3>
+                <h3 class="info-customer" >Số điện thoại : {{data.phone_customer}}</h3>
+                <h3 class="info-customer" >Địa chỉ : {{data.address_customer}}</h3>
+            </div>
+            <div class="item-action">
+                <button class="btn-action">
+                    <a class="item-action-link" href="/shop">Quay lai
+                    </a>
+                </button>
+                
+                {% comment %} <button class="btn-action">
+                    <a class="item-action-link" href="../addToCart?id={{data.id}}">Thêm vào giỏ hàng
+                    </a>
+                </button> {% endcomment %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}

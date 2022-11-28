@@ -1,0 +1,242 @@
+
+{% extends 'shop/base.html' %}
+
+{% block title %}Chi tiết sản phẩm{% endblock  %}
+
+{% block style %}
+<style>
+    .block-content{
+        margin: 50px;
+        border: 1px solid black;
+        min-height: 80vh;
+        overflow: hidden;
+    }
+    .top-content{
+        display:flex;
+        border-bottom: 1px solid black;
+        justify-content: space-between;
+    }
+
+    .detail-img{
+        width: 40%;
+        border-right: 1px solid black;
+    }
+    .cover-detail{
+        width: 60%;
+        padding: 40px;
+        display:flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+    .cover-img{
+        margin: 20px;
+        border-radius: 4px;
+    }
+    .img{
+        max-width: 100%;
+        height: auto;
+    }
+    .describe-item{
+        display: flex;
+        flex-direction: row;
+    }
+    .item-action{
+        display:flex;
+        margin: 20px 0;
+    }
+    .item-action-link{
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        height: 100%;
+        color: black;
+        line-height: 50px;
+    }
+    .name-item{
+        margin: 0 0 20px 0;
+    }
+    .btn-action{
+        display:block;
+        width:50%;
+        height:50px;
+    }
+    .price-item{
+        margin: 20px 0;
+    }
+    fieldset, label { margin: 0; padding: 0; }
+    body{ margin: 20px; }
+    h1 { font-size: 1.5em; margin: 10px; }
+
+    /****** Style Star Rating Widget *****/
+
+    .rating { 
+    border: none;
+    float: left;
+    }
+
+    .rating > input { display: none; } 
+    .rating > label:before { 
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+    }
+
+    .rating > .half:before { 
+    content: "\f089";
+    position: absolute;
+    }
+
+    .rating > label { 
+    color: #ddd; 
+    float: right; 
+    }
+    .ip_cmt{
+        height: 40px;
+        width:100%;
+    }
+    .cover_rating{
+        width: 100%;
+    }
+    .form_rating{
+        display:flex;
+        flex-direction:column;
+        margin: 20px;
+        width:80%;
+    }
+    .btn_rating{
+        width:100px;
+        height:40px;
+    }
+    .rated{
+        margin:20px;
+    }
+    .item_rating{
+        display:flex;
+        align-items: center;
+    }
+    /***** CSS Magic to Highlight Stars on Hover *****/
+
+    .rating > input:checked ~ label, /* show gold star when clicked */
+    .rating:not(:checked) > label:hover, /* hover current star */
+    .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+    .rating > input:checked + label:hover, /* hover current star when changing rating */
+    .rating > input:checked ~ label:hover,
+    .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+    .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+</style>
+
+{% endblock style %}
+
+
+
+{% block content %}
+
+<div class="block-content">
+    <div class="top-content">
+        <div class="detail-img">
+            <div class="cover-img">
+                <img class="img" src="{{data.photo.url}}" alt="">
+            </div>
+        </div>
+        <div class="cover-detail">
+            <div class="desc-item">
+                <h1 class="name-item">Tên sản phẩm : {{data.name}}</h1>
+                <h3 class="price-item" >{{data.price}}</h3>
+                <div class="describe-item">
+                    <p>Mô tả sản phẩm: {{data.desc}}</p>
+                </div>
+            </div>
+            <div class="item-action">
+                <button class="btn-action">
+                    <a class="item-action-link" href="/shop">Quay lai
+                    </a>
+                </button>
+                
+                <button class="btn-action">
+                    <a class="item-action-link" data-id="{{data.id}}" >Thêm vào giỏ hàng
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <form action=""class="form_rating">
+        <input type="hidden" name="ID" value={{data.id}}>
+        
+        <textarea class="ip_cmt" name="cmt" id="" cols="30" rows="10"></textarea>
+        <fieldset class="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+            <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+            <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+            <input type="radio" id="star2half" name="rating" value="2.5" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+            <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+            <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+        </fieldset>
+        <button class="btn_rating">submit</button>
+    </form>
+    <div class="cover_rating">
+        <h1>Đánh Giá: {{avg}} <i class="bi bi-star-fill"></i> </h1>
+        <div class="rated">
+            {% if rating_cmt %}
+                {% for i in rating_cmt %}
+                    <div class="item_rating">
+                        <h3>{{i.id_customer.name}}: </h3>
+                        <p>{{i.cmt}}  </p>
+                    </div>
+                    <i>{{i.rating}} <i class="bi bi-star-fill"></i></i>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+    </div>
+</div>
+
+{% endblock  %}
+
+{% block script %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    let price = document.querySelector(".price-item").innerText
+    let test1 = price.toString();
+    let x = test1.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    document.querySelector(".price-item").innerText=`Giá: ${x} vnd` 
+
+    $(document).ready(function(){
+        $('.item-action-link').click(function(e){
+            let btn = $(this);
+            let id = btn.data('id');
+            
+            $.ajax({
+                type:'GET',
+                url: "{% url 'add_cart' %}",
+                data:{id},
+                success: function (response) {
+                    Swal.fire(
+                    'Thành Công!',
+                    'You clicked the button!',
+                    'success'
+                    )
+                },
+                error: function (response) {
+                    // alert the error if any error occured
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+            })
+        })
+    })
+</script>
+
+{% endblock script %}
+
+

@@ -1,0 +1,116 @@
+
+{% extends 'pagesAdmin/base.html' %}
+
+{% block title %}Danh sách hóa đơn{% endblock  %}
+{% block style %}
+    <style>
+        .table{
+            width: 100%;
+            border: 1px solid #000;
+        }
+        td{
+            border: 1px solid #000;
+        }
+        tr{
+            border: 1px solid #000;
+        }
+        .min-height{
+            min-height:100vh;
+            margin: 20px 0;
+        }
+        a{
+            text-decoration:none;
+            
+        }
+        ul{
+            list-style: none;
+        }
+        .btn-ac{
+            width:60px;
+            height:30px;
+            background-color:green;
+            border:none;
+        }
+        .btn-wa{
+            width:60px;
+            height:30px;
+            background-color:red;
+            border:none;
+        }
+        .link-action{
+            color: white;
+            line-height:30px;
+            display:block;
+            width:100%;
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+<div class="min-height">
+    <h1>Manager order</h1> 
+    <table class="table">
+        <tr>
+            <td>Mã</td>
+            <td>Thời gian đặt</td>
+            <td>Thông tin khác hàng</td>
+            <td>Thông tin người nhận</td>
+            <td>Trạng thái</td>
+            <td>Tổng tiền</td>
+            <td>Xem</td>
+            <td>Hành động</td>
+        </tr>
+        {% for x in data %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.create_at|date:'Y-m-d H:i' }}</td>
+                <td>
+                    <ul>
+                        <li>tên: {{x.id_customer.name}}</li>
+                        <li>số điện thoại: {{x.id_customer.phone_customer}}</li>
+                        <li>địa chỉ: {{x.id_customer.address_customer}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>tên: {{x.name_recerver}}</li>
+                        <li>số điện thoại: {{x.phone_recerver}}</li>
+                        <li>địa chỉ: {{x.address_recerver}}</li>
+                    </ul>
+                </td>
+                <td>
+                    {% if x.status == 0 %}
+                    <h5>Đang chờ</h5>
+                    {% elif x.status == 1 %}
+                    <h5>Đã duyệt</h5>
+                    {% else %}
+                    <h5>Đã Hủy</h5>
+                    {% endif %}
+                </td>
+                <td>
+                    {{x.sum_price}}
+                </td>
+                <td>
+                    <a href="detailOrder?id={{x.id}}">Xem chi tiet</a>
+                </td>
+                <td>
+                    {% if x.status == 0 %}
+                        <button class="btn-ac" >
+                            <a href="actionOrder?id={{x.id}}&type=ac" class="link-action">Duyệt</a>
+                        </button>
+                        <button class="btn-wa">
+                            <a href="actionOrder?id={{x.id}}&type=wa" class="link-action">Hủy</a>
+                        </button>
+                    {% else %}
+                        <label for="">đã hành động</label>
+                    {% endif %}
+                    
+                </td>
+            
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock  %}
+
+

@@ -1,0 +1,191 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Home{% endblock  %}
+{% block style %}
+<style>
+    .item {
+        width: 30%;
+        height: auto;
+        border: 1px solid black;
+        float: left;
+        margin:20px;
+        border-radius: 4px;
+    }
+    .product_item_img{
+        padding-top: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    .img-item{
+        width: auto;
+        height:200px;
+    }
+    .name{
+        display: inline-block;
+        margin:12px;
+        word-wrap: break-word;
+        white-space: normal;
+        overflow: hidden;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+    .price{
+        font-size:20px;
+        margin: 12px;
+    }
+    .item-action{
+        display:flex;
+        margin: 12px;
+
+    }
+    .item-action-link{
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        height: 100%;
+        color: black;
+        line-height: 50px;
+    }
+    .item-action-link-view{
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        height: 100%;
+        color: black;
+        line-height: 50px;
+    }
+    .btn-action{
+        display:block;
+        width:50%;
+        height:50px;
+    }
+    .min-height{
+        min-height: 100vh;
+        margin:20px 0;
+        overflow: hidden;
+        display:flex;
+        flex-direction:column;
+    }
+    .from_search{
+        display:flex;
+        margin-left:20px;
+    }
+    .btn_back{
+        margin-left:20px;
+    }
+    a{
+        text-decoration:none;
+    }
+    .ip_search{
+        height: 24px;
+    }
+    .list_page{
+        font-size:20px;
+        align-items: center;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+<div class="min-height">
+    
+    {% if messenger %}
+        <h1>{{messenger}}</h1>
+    {% elif data %}
+        <caption>
+            <div class="from_search">
+                <form>
+                    <label for="">
+                        <h1>Search</h1>
+                    </label>
+                    <input class="ip_search" type="search" name="search" value="{{search}}">
+                </form>
+                {% if search %}
+                <button class="btn_back">
+                    <a href="http://{{ request.get_host }}/shop">Quay lại</a>
+                </button>
+                {% endif %}
+            </div>
+        </caption>
+        <div class="list_item">
+            {% for x in data %}
+                <div class="item">
+                    <div class="product_item_img" style="background-image:url({{x.photo.url}}) ;"></div>
+                    <h1 class="name">{{x.name}}</h1>
+                    <p class="price">{{x.price}}</p>
+                    <div class="item-action">
+                        <button class="btn-action">
+                            <a class="item-action-link-view" href="product-detail?ID={{x.id}}" >Xem chi tiết
+                            </a>
+                        </button>
+                        
+                        <button class="btn-action" id="basicAlert">
+                            <a class="item-action-link" data-id="{{x.id}}"  >Thêm vào giỏ hàng
+                            </a>
+                        </button>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="list_page">
+            {% for i in num_page %}
+                {% if search %}
+                    <button style="width: 30px;height: 30px;">
+                        <a style="line-height:30px;display:block;" href="?page={{i}}&search={{search}}">{{i}}</a>
+                    </button>
+                {% else %}
+                    <button style="width: 30px;height: 30px;">
+                        <a style="line-height:30px;display:block;" href="?page={{i}}">{{i}}</a>
+                    </button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock  %}
+
+{% block script %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    let price = document.querySelectorAll(".price")
+    for(let i=0;i<price.length;i++){
+        let test1 = price[i].innerText.toString();
+        let x = test1.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        document.querySelectorAll(".price")[i].innerText=`Giá: ${x} vnd`
+    } 
+    
+
+    $(document).ready(function(){
+        $('.item-action-link').click(function(e){
+            let btn = $(this);
+            let id = btn.data('id');
+            
+            $.ajax({
+                type:'GET',
+                url: "{% url 'add_cart' %}",
+                data:{id},
+                success: function (response) {
+                    Swal.fire(
+                    'Thành Công!',
+                    'You clicked the button!',
+                    'success'
+                    )
+                },
+                error: function (response) {
+                    // alert the error if any error occured
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+            })
+        })
+    })
+</script>
+{% endblock script %}

@@ -1,0 +1,94 @@
+
+{% extends 'shop/base.html' %}
+
+{% block title %}Thông tin đơn hàng{% endblock  %}
+
+
+{% block style %}
+
+    <style>
+        .table{
+            width: 100%;
+            border: 1px solid #000;
+        }
+        td{
+            border: 1px solid #000;
+        }
+        tr{
+            border: 1px solid #000;
+        }
+        .button{
+            display: block;
+            width: 115px;
+            text-decoration: none;
+            height: 50px;
+            line-height: 50px;
+            background: #4E9CAF;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .check-out{
+            min-height: 80vh;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        ul{
+            list-style: none;
+        }
+    </style>
+{% endblock style %}
+
+
+{% block content %}
+<div class="check-out">
+    <table class="table">
+        <tr>
+            <td>Ma</td>
+            <td>Thời gian đặt</td>
+            <td>Thông tin khách hàng </td>
+            <td>Thông tin người nhận</td>
+            <td>Trạng thái</td>
+            <td>Tổng tiền</td>
+            <td>Xem</td>
+        </tr>
+        {% for x in data  %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.create_at|date:'Y-m-d H:i' }}</td>
+                <td>
+                    <ul>
+                        <li>tên: {{x.id_customer.name}}</li>
+                        <li>số điện thoại: {{x.id_customer.phone_customer}}</li>
+                        <li>địa chỉ: {{x.id_customer.address_customer}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>tên: {{x.name_recerver}}</li>
+                        <li>số điện thoại: {{x.phone_recerver}}</li>
+                        <li>địa chỉ: {{x.address_recerver}}</li>
+                    </ul>
+                </td>
+                <td>
+                    {% if x.status == 0 %}
+                    <h5>Đang chờ</h5>
+                    {% elif x.status == 1 %}
+                    <h5>Đã duyệt</h5>
+                    {% else %}
+                    <h5>Đã Hủy</h5>
+                    {% endif %}
+                </td>
+                <td>
+                    {{x.sum_price}}
+                </td>
+                <td>
+                    <a href="detailOrder?id={{x.id}}">Xem chi tiet</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock  %}

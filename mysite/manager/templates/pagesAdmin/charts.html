@@ -1,0 +1,162 @@
+
+{% extends 'pagesAdmin/base.html' %}
+
+{% block title %}Danh sách hóa đơn{% endblock  %}
+{% block style %}
+    <style>
+        .table{
+            width: 100%;
+            border: 1px solid #000;
+        }
+        td{
+            border: 1px solid #000;
+        }
+        tr{
+            border: 1px solid #000;
+        }
+        .min-height{
+            min-height:70vh;
+            margin: 20px 0;
+        }
+        a{
+            text-decoration:none;
+            
+        }
+        ul{
+            list-style: none;
+        }
+        .btn-ac{
+            width:60px;
+            height:30px;
+            background-color:green;
+            border:none;
+        }
+        .btn-wa{
+            width:60px;
+            height:30px;
+            background-color:red;
+            border:none;
+        }
+        .link-action{
+            color: white;
+            line-height:30px;
+            display:block;
+            width:100%;
+        }
+        .highcharts-figure,
+        .highcharts-data-table table {
+        min-width: 360px;
+        max-width: 800px;
+        margin: 1em auto;
+        }
+
+        .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+        }
+
+        .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+        }
+
+        .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+        }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+        padding: 0.5em;
+        }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+        }
+
+        .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+{{data}}
+<div class="min-height">
+    <h1>Manager statistical</h1> 
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+          Biểu đồ thống kê 
+        </p>
+      </figure>
+</div>
+{% endblock  %}
+{% block script %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+    Highcharts.chart('container', {
+
+        title: {
+          text: 'Biểu đồ thống kê thu nhập trong 7 ngày gần đây'
+        },
+      
+        yAxis: {
+          title: {
+            text: ''
+          }
+        },
+      
+        xAxis: {
+            categories: {{datax|safe}},
+        },
+      
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+        },
+      
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+          }
+        },
+      
+        series: [{
+          name: 'Doanh thu',
+          data: {{datay}}
+        }],
+      
+        responsive: {
+          rules: [{
+            condition: {
+              maxWidth: 500
+            },
+            chartOptions: {
+              legend: {
+                layout: 'horizontal',
+                align: 'center',
+                verticalAlign: 'bottom'
+              }
+            }
+          }]
+        }
+      
+      });
+</script>
+{% endblock script %}

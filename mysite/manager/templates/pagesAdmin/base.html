@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    <script src="@@path/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <title>{% block title %}{% endblock  %}</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        .list_nav {
+            display: flex;
+            list-style-type: none;
+            justify-content: flex-start;
+            margin:0 20px;
+        }
+        
+        .nav_bar {
+            height: 6rem;
+            line-height: 6rem;
+        }
+        
+        .bg_color_grey {
+            background-color: rgb(175, 172, 172);
+            border-bottom: 1px solid black;
+            
+        }
+        
+        .item_nav {
+            margin-right: 2rem;
+        }
+        
+        .btn-nav {
+            padding: 1rem;
+            border: 1px solid rgb(79, 79, 174);
+            background-color: blue;
+            border-radius: 5px;
+        }
+        
+        .link-nav {
+            font-size: 1.6rem;
+            text-decoration: none;
+            color: white;
+        }
+        .gird{
+            margin: 0 40px
+        }
+        
+        .footer{
+            border-top: 1px solid black;
+            height:100px;
+            background-color: #ccc;
+            display:flex;
+            justify-content: space-between;
+        }
+        .icon{
+            line-height: 100px;
+            margin-left: 50px;
+            font-size:24px;
+        }
+        .text{
+            line-height: 100px;
+            margin-right: 50px;
+            font-size:24px;
+        }
+    </style>
+    {% block style %}{% endblock style %}
+</head>
+<body>
+    <div class="root">
+        <div class="bg_color_grey">
+            <div class="grid wide">
+                <div class="nav_bar">
+                    <ul class="list_nav">
+                        <li class="item_nav">
+                            <button class="btn-nav">
+                                <a href="/manager/managerProduct" class="link-nav">Quản lý sản phẩm</a>
+                            </button>
+                        </li>
+                        <li class="item_nav">
+                            <button class="btn-nav">
+                                <a href="/manager/managerCheckout" class="link-nav">Quản lý hóa đơn</a>
+                            </button>
+                        </li>
+                        <li class="item_nav">
+                            <button class="btn-nav">
+                                <a href="/manager/managerStatisticalWeek" class="link-nav">Thống kê doanh thu</a>
+                            </button>
+                        </li>
+                        <li class="item_nav">
+                            <button class="btn-nav">
+                                <a href="/manager/managerStatisticalYear" class="link-nav">Thống kê số hóa đơn</a>
+                            </button>
+                        </li>
+                        <li class="item_nav">
+                            <button class="btn-nav">
+                                <a href="/manager/logout" class="link-nav">Logout</a>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="gird wide">
+            <div class="content">
+                {% block content %}{% endblock  %}
+            </div>
+        </div>
+        <div class="footer">
+            <div class="icon">
+                <i class="bi bi-facebook"></i>
+                <i class="bi bi-instagram"></i>
+            </div>
+            <div class="text">
+                <h3>Bài tập lớn python</h3>
+            </div>
+        </div>
+    </div>
+</body>
+{% block script %}{% endblock script %}
+</html>

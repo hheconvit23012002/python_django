@@ -1,0 +1,9 @@
+*{
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+.table{
+    width: 100%;
+    border: 1px solid #000;
+}

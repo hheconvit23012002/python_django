@@ -1,0 +1,83 @@
+
+{% extends 'pagesAdmin/base.html' %}
+
+{% block title %}HomeAdmin{% endblock  %}
+{% block style %}
+    <style>
+        .table{
+            width: 100%;
+            border: 1px solid #000;
+        }
+        td{
+            border: 1px solid #000;
+        }
+        tr{
+            border: 1px solid #000;
+        }
+        .button{
+            display: block;
+            width: 115px;
+            text-decoration: none;
+            height: 50px;
+            line-height: 50px;
+            background: #4E9CAF;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .min-height{
+            min-height:100vh;
+            margin: 20px 0;
+        }
+        a{
+            text-decoration:none
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+<div class="min-height">
+    
+    <a class="button" href="http://{{ request.get_host }}/manager/add_product/">Them san pham</a>
+    <h1>Manager product</h1> 
+    <table class="table">
+        <caption style="margin-bottom:20px">
+            <form>
+                <input type="search" name="search" value="{{search}}">
+            </form>
+            {% if search %}
+            <button>
+                <a href="http://{{ request.get_host }}/manager/managerProduct/">Quay lại</a>
+            </button>
+            {% endif %}
+        </caption>
+        
+        <tr>
+            <td>Ma</td>
+            <td>Tên</td>
+            <td>Ảnh</td>
+            <td>Giá</td>
+            <td>Sửa</td>
+            <td>Xóa</td>
+        </tr>
+        {% for x in data %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.name}}</td>
+                <td>
+                    <img style="height:100px" src="{{x.photo.url}}" alt="">
+                </td>
+                <td>{{x.price}}</td>
+                <td>
+                    <a href="updateProduct?id={{x.id}}">Sua</a>
+                </td>
+                <td>
+                    <a href="deleteProduct?id={{x.id}}">Xoa</a>
+                </td>
+            
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock  %}

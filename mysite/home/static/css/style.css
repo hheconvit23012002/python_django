@@ -1,0 +1,116 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.list_nav {
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-start;
+}
+
+.nav_bar {
+    height: 6rem;
+    line-height: 6rem;
+}
+
+.bg_color_grey {
+    background-color: rgb(175, 172, 172);
+}
+
+.item_nav {
+    margin-right: 2rem;
+}
+
+.btn-nav {
+    padding: 1rem;
+    border: 1px solid rgb(79, 79, 174);
+    background-color: blue;
+    border-radius: 5px;
+}
+
+.link-nav {
+    font-size: 1.6rem;
+    text-decoration: none;
+    color: white;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+.item {
+    width: 33.33333%;
+    height: auto;
+    border: 1px solid black;
+    float: left;
+    
+}
+
+
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+    .cancelbtn {
+        width: 100%;
+    }
+}

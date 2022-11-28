@@ -1,0 +1,214 @@
+
+{% extends 'shop/base.html' %}
+
+{% block title %}Giỏ hàng{% endblock  %}
+
+
+{% block style %}
+    <style>
+        .table{
+            width: 100%;
+            border: 1px solid #000;
+        }
+        td{
+            border: 1px solid #000;
+        }
+        tr{
+            border: 1px solid #000;
+        }
+        .button{
+            display: block;
+            width: 115px;
+            text-decoration: none;
+            height: 50px;
+            line-height: 50px;
+            background: #4E9CAF;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .min-height{
+            min-height: 80vh;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .btn-action{
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border: 1px solid black;
+        }
+        .action-link{
+            color: black;
+            font-size: 20px;
+            text-decoration: none;
+            width: 100%;
+            line-height:24px;
+        }
+        .info{
+            margin: 40px 0;
+        }
+        .margin{
+            margin: 20px 0;
+        }
+        .ip-style{
+            width: 100%;
+            height: 30px;
+            font-size: 20px;
+        }
+        .btn-submit{
+            width: 160px;
+            height: 40px;
+            font-size:32px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock style %}
+
+
+{% block content %}
+<div class="min-height">
+    <table class="table">
+        <tr>
+            <td>Ma</td>
+            <td>Tên</td>
+            <td>Ảnh</td>
+            <td>Giá</td>
+            <td>Số lượng</td>
+            <td>Tổng tiền</td>
+            <td>Xóa</td>
+        </tr>
+        {% for x in data  %}
+            <tr>
+                <td>{{x.id_product.id}}</td>
+                <td>{{x.id_product.name}}</td>
+                <td>
+                    <img style="height:100px" src="{{x.id_product.photo.url}}" alt="">
+                </td>
+                <td>
+                    <span class="span_price">{{x.id_product.price}}</span>
+                </td>
+                <td>
+                    <button class="btn-action" data-id={{x.id_product.id}} data-type="decre">
+                        -
+                    </button>
+                    <span class="span_quantity">
+                        {{x.quantity}}
+                    </span>
+                    <button class="btn-action" data-id={{x.id_product.id}} data-type="incre">
+                        +
+                    </button>
+                </td>
+                <td>
+                    <span class="span_sum">
+                        {% widthratio x.id_product.price 1 x.quantity %}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn-delete" data-id="{{x.id_product.id}}">Xoa</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="info">
+        {% if sumPrice %}
+        <h1  >Tổng số tiền : <span id="span_total">{{sumPrice}}</span>  vnd</h1>
+        {% endif %}
+        
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="sum_price" value = "{{sumPrice}}">
+            <h1 class="margin" >Tên Người Nhận</h1>
+            <input class="ip-style" type="text" name="name_receiver" value="{{receiver.name}}">
+            <br>
+            <h1 class="margin">Số điện thoại người nhận</h1>
+            <input class="ip-style" type="text" name="phone_receiver" value="{{receiver.phone_customer}}">
+            <br>
+            <h1 class="margin">Địa chỉ người nhận</h1>
+            <input class="ip-style" type="text" name="address_receiver" value="{{receiver.address_customer}}">
+            <br>
+            <button class="btn-submit">submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock  %}
+
+{% block script %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function(){
+        $(".btn-action").click(function(e){
+            let btn = $(this)
+            let id = btn.data('id');
+            let type = btn.data('type');
+            $.ajax({
+                type:'GET',
+                url:"{% url 'change_quantity'%}",
+                data:{id,type},
+                success: function (response) {
+                    let parent_tr = btn.parents('tr')
+                    let price = parent_tr.find('.span_price').text()
+                    let quantity = parent_tr.find('.span_quantity').text()
+                    if(type=="incre"){
+                        quantity++;
+                    }else{
+                        quantity--;
+                    }
+                    if(quantity === 0){
+                        parent_tr.remove();
+                    }else{
+                        parent_tr.find('.span_quantity').text(quantity);
+                        let sum = price*quantity;
+                        parent_tr.find('.span_sum').text(sum);
+                    }
+                    getTotal()
+                },
+                error: function (response) {
+                    // alert the error if any error occured
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+            })
+        })
+        $(".btn-delete").click(function(e){
+            let btn = $(this)
+            let id = btn.data('id');
+            $.ajax({
+                type:'GET',
+                url:"{% url 'delete_in_cart'%}",
+                data:{id},
+                success: function (response) {
+                    let parent_tr = btn.parents('tr');
+                    parent_tr.remove();
+                    getTotal();
+                },
+                error: function (response) {
+                    // alert the error if any error occured
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+            })
+        })
+        function getTotal(){
+			let total = 0;
+			$('.span_sum').each( function() {
+				total+=parseFloat($(this).text());
+			});
+			$('#span_total').text(total);
+		};
+    })
+</script>
+{% endblock script %}
